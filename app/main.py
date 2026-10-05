@@ -121,12 +121,17 @@ def create_submission(
 @app.get(
     "/submissions",
     response_model=list[SubmissionListItem],
+    responses={400: {"model": Error}},
     tags=["Iesniegumi"],
 )
 def list_submissions(
-    status: str | None = None, topic: str | None = None
+    status: SubmissionStatus | None = None, topic: Topic | None = None
 ) -> list[SubmissionListItem]:
-    records = storage.list_submissions(status=status, topic=topic)
+    # Atļauto vērtību sarakstu nosaka līguma enum; citas vērtības -> 400.
+    records = storage.list_submissions(
+        status=status.value if status else None,
+        topic=topic.value if topic else None,
+    )
     return [SubmissionListItem(**record) for record in records]
 
 

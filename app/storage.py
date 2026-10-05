@@ -128,14 +128,19 @@ def add(data: dict) -> dict:
 
 
 def list_submissions(status: str | None = None, topic: str | None = None) -> list:
-    where = "1=1"
+    # Vērtības tikai kā parametri (?), nekad SQL tekstā.
+    conditions = []
+    params = []
     if status:
-        where += f" AND status = '{status}'"
+        conditions.append("status = ?")
+        params.append(status)
     if topic:
-        where += f" AND topic = '{topic}'"
+        conditions.append("topic = ?")
+        params.append(topic)
+    where = " AND ".join(conditions) or "1=1"
     with _lock:
         rows = _conn.execute(
-            f"SELECT * FROM submissions WHERE {where} ORDER BY seq"
+            f"SELECT * FROM submissions WHERE {where} ORDER BY seq", params
         ).fetchall()
     return [{column: row[column] for column in COLUMNS} for row in rows]
 
