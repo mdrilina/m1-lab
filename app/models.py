@@ -22,7 +22,18 @@ class Topic(str, Enum):
     ROADS = "ROADS"
     WASTE = "WASTE"
     PLANNING = "PLANNING"
+    PARKS = "PARKS"
     OTHER = "OTHER"
+
+
+# Tēmu nosaukumi (CR-0). Secība sakrīt ar Topic; OTHER vienmēr beigās.
+TOPIC_NAMES: dict[Topic, str] = {
+    Topic.ROADS: "Ceļi un ielas",
+    Topic.WASTE: "Atkritumi",
+    Topic.PLANNING: "Teritorijas plānošana",
+    Topic.PARKS: "Parki un skvēri",
+    Topic.OTHER: "Cits",
+}
 
 
 class SubmissionStatus(str, Enum):
@@ -31,6 +42,11 @@ class SubmissionStatus(str, Enum):
     FORWARDED = "FORWARDED"
     ANSWERED = "ANSWERED"
     WITHDRAWN = "WITHDRAWN"
+
+
+class TopicItem(BaseModel):
+    code: Topic
+    name: str
 
 
 class SubmissionCreate(BaseModel):

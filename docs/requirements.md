@@ -10,7 +10,7 @@
 - **R4** Ir tehniskais galapunkts `/health` uzraudzībai.
 
 **Statusi:** `RECEIVED`, `IN_PROGRESS`, `FORWARDED`, `ANSWERED`, `WITHDRAWN`.
-**Tēmas:** `ROADS`, `WASTE`, `PLANNING`, `OTHER`.
+**Tēmas:** `ROADS`, `WASTE`, `PLANNING`, `PARKS`, `OTHER`.
 
 ## Atbildes termiņš (vienkāršots noteikums)
 

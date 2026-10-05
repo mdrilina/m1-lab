@@ -43,6 +43,25 @@ def test_missing_field_returns_400_required(client, valid_payload):
     assert {"field": "subject", "issue": "REQUIRED"} in error["details"]
 
 
+def test_topics_list_contains_parks_in_order(client):
+    response = client.get("/topics")
+    assert response.status_code == 200
+    assert response.json() == [
+        {"code": "ROADS", "name": "Ceļi un ielas"},
+        {"code": "WASTE", "name": "Atkritumi"},
+        {"code": "PLANNING", "name": "Teritorijas plānošana"},
+        {"code": "PARKS", "name": "Parki un skvēri"},
+        {"code": "OTHER", "name": "Cits"},
+    ]
+
+
+def test_create_submission_accepts_parks_topic(client, valid_payload):
+    valid_payload["topic"] = "PARKS"
+    response = client.post("/submissions", json=valid_payload)
+    assert response.status_code == 201
+    assert response.json()["status"] == "RECEIVED"
+
+
 def test_unknown_topic_returns_400(client, valid_payload):
     valid_payload["topic"] = "ZOO"
     response = client.post("/submissions", json=valid_payload)
